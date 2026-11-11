@@ -22,7 +22,6 @@ def initialize_snake_body(
 
     return body
 
-
 def fruit_position(
     grid_width: int,
     grid_height: int,
@@ -49,7 +48,6 @@ def fruit_position(
 
     return random.choice(available_positions)
 
-
 def _initialize_snake_position(
     grid_width: int,
     grid_height: int
@@ -63,13 +61,11 @@ def _initialize_snake_position(
 
     return pygame.Vector2(x, y)
 
-
 class Direction(Enum): 
     RIGHT = (1, 0)
     LEFT = (-1, 0)
     UP = (0, -1)
     DOWN =(0, 1)
-
 
 def next_snake_position(
     position: pygame.Vector2,
@@ -80,7 +76,6 @@ def next_snake_position(
     """
     movement = pygame.Vector2(direction.value)
     return position + movement
-
 
 def move_snake_body(
     snake_body: list[pygame.Vector2],
@@ -101,7 +96,6 @@ def move_snake_body(
         new_body.pop()
     return new_body
     
-
 def get_direction_from_key(
         key: int,
     ) -> Direction | None:
@@ -119,7 +113,6 @@ def get_direction_from_key(
     else:
         return None
     
-
 def is_valid_direction(
         current_direction: Direction,
         new_direction: Direction
@@ -141,7 +134,6 @@ def is_valid_direction(
 
     return current_vector + new_vector != pygame.Vector2(0, 0)
 
-
 def wall_collision( 
     grid_width: int,
     grid_height: int,
@@ -156,7 +148,6 @@ def wall_collision(
             or snake_position.y < 0
             or snake_position.y >= grid_height)
 
-
 def fruit_collision(
     fruit_position: pygame.Vector2 | None,
     snake_head: pygame.Vector2
@@ -165,7 +156,6 @@ def fruit_collision(
     Returns True if the snake is on a square containing a fruit.
     """
     return fruit_position is not None and  fruit_position == snake_head
-
 
 def body_colission(
         snake_body: list[pygame.Vector2]
