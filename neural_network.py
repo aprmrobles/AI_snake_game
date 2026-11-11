@@ -1,10 +1,22 @@
 
 import random
 import math
+from snake_observation import possible_directions
+from snakegame import Direction
 
+
+
+def select_action(scores: list[float]) -> str:
+    highest_score = max(scores)
+    highest_location = scores.index(highest_score)
+    possible_actions = ["LEFT", "STRAIGHT", "RIGHT"]
+    action = possible_actions[highest_location]
+    return action
 
 def forward(
-    observation: list[int], hidden_layer: list[dict], output_layer: list[dict]
+    observation: list[int], 
+    hidden_layer: list[dict], 
+    output_layer: list[dict]
 ) -> list[float]:
     """Computes three action scores by passing observations through the neural network."""
 
@@ -12,7 +24,6 @@ def forward(
     outs = outputs(output_layer, hidden_outs)
 
     return outs
-
 
 def outputs(
     output_layer: list[dict], hidden_outputs: list[float]
@@ -72,7 +83,6 @@ def initialize_hidden_layer() -> list[dict]:
 
     return hidden_layer
 
-
 def sigmoid_neuron(inputs, weights, bias):
     return sigmoid(weighted_sum(inputs, weights, bias))
 
@@ -114,9 +124,3 @@ observation = [0, 1, 0, 1, 0, 0]
 
 
 
-
-
-hidden_layer = initialize_hidden_layer()
-output_layer = initialize_output_layer()
-scores = forward(observation, hidden_layer, output_layer)
-print(scores)

@@ -51,7 +51,7 @@ def fruit_position(
 def _initialize_snake_position(
     grid_width: int,
     grid_height: int
-) -> pygame.Vector2:
+) -> list[pygame.Vector2]:
     """
     Calculates Snake's starting position in grid position.
     """
@@ -95,7 +95,39 @@ def move_snake_body(
     if not grow:
         new_body.pop()
     return new_body
-    
+
+def step(
+    snake_body: list[pygame.Vector2],
+    direction: Direction,
+    fruit: pygame.Vector2 | None,
+    grid_width: int,
+    grid_height: int
+) -> tuple[list[pygame.Vector2], pygame.Vector2 | None, bool]:
+    """
+    Advances the Snake simulation by one movement step.
+
+    1 updates the snake's body
+    2 checks for collisions
+    3. generates a new fruit (if the snake eats the current one).
+
+    Returns:
+        A tuple containing the updated snake body, fruit position,
+        and a boolean indicating whether a collision occurred.
+    """
+
+    next_head = next_snake_position(snake_body[0], direction)
+    ate_fruit = fruit_collision(fruit, next_head)
+    next_body = move_snake_body(snake_body, direction, grow=ate_fruit)
+    collision = (wall_collision(grid_width, grid_height, next_body[0])
+                or body_colission(next_body)
+)
+    new_fruit = fruit
+    if ate_fruit and not collision:
+        new_fruit = fruit_position(grid_width, grid_height, next_body)
+
+    return next_body, new_fruit, collision
+
+
 def get_direction_from_key(
         key: int,
     ) -> Direction | None:

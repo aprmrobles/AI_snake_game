@@ -2,6 +2,15 @@ import pygame
 from snakegame import Direction
 import snakegame
 
+def action_to_direction(action: str, current_direction: Direction) -> Direction:
+    """Converts a  action into a direction based on where the snake is heading."""
+
+    left, straight, right = possible_directions(current_direction)
+
+    action_directions = {"LEFT": left, "STRAIGHT": straight, "RIGHT": right}
+
+    return action_directions[action]
+
 def observation_vector(
     snake_body: list[pygame.Vector2],
     snake_direction: Direction,
@@ -10,7 +19,7 @@ def observation_vector(
     grid_height: int
 ) -> tuple[int, int , int, int, int, int]:
     """
-    Combines danger and fruit information into six numerical inputs for the neural network.
+    Combines danger and fruit into six number inputs for the neural network.
     """
     dangers = get_danger_inputs(
           snake_body, 
